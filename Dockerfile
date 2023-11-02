@@ -26,7 +26,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 
 
-COPY ./app/pyproject.toml  /app/
+COPY ./pyproject.toml ./poetry.lock /app/
 
 # install poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
@@ -34,8 +34,10 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 RUN poetry config virtualenvs.create false \
     && poetry install
 
-COPY ./app /app
 
 EXPOSE 8000
+
+COPY ./ /app
+RUN chmod +x /app/docker-entrypoint.sh
 
 CMD ["sh", "/app/docker-entrypoint.sh"]

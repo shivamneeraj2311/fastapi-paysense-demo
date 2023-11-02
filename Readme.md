@@ -3,7 +3,7 @@
 - `poetry install`
 - `poetry shell`
 - `docker-compose up db -d`
-- `alembic revision --autogenerate -m "<message>"`
+- `alembic revision --autogenerate -m "Tables Added"`
 - `alembic upgrade head`
 
 ## RUN APPLICATION

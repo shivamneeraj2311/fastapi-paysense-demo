@@ -7,15 +7,18 @@ services:
     container_name: fastapi-app
     ports:
       - "8000:8000"
-    environment:
-      - SQLALCHEMY_DATABASE_URI=postgresql://username:password@host.docker.internal:5432/demo_db
+    env_file:
+      - .env.local
     depends_on:
       - db
     networks:
       - fastapi-app
+    stdin_open: true
+    volumes:
+      - ./:/app
   db:
     image: postgres:13
-    container_name: postgres-db
+    container_name: postgres-database
     ports:
       - "5432:5432"
     volumes:

@@ -1,0 +1,18 @@
+*
+.*
+
+# source code
+!alembic/
+!alembic.ini
+!src/
+!console.py
+!handler.py
+!docker-entrypoint.sh
+!packages
+packages/**/.venv
+!uvicorn_disable_logging.json
+
+# temp requirements file
+!build-requirements.txt
+!pyproject.toml
+!poetry.lock
