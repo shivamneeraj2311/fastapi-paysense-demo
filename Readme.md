@@ -2,12 +2,10 @@
 - `pip install poetry`
 - `poetry install`
 - `poetry shell`
-- `docker-compose up db -d`
-- `alembic revision --autogenerate -m "Tables Added"`
-- `alembic upgrade head`
+- `make create_database`
 
 ## RUN APPLICATION
 
-- docker-compose up
+- `make run_server`
 - Visit `http://127.0.0.1:8000/docs`
 
