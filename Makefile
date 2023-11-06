@@ -16,6 +16,9 @@ env_db:
 env_local: env_db
 	$(call setup_env, .env.local)
 
+env_test: env_local
+	$(call setup_env, .env.test)
+
 
 create_database: env_local
 	docker-compose up db -d
@@ -41,5 +44,8 @@ run_local: env_local
 
 run_server: env_local
 	docker-compose up
+
+test_unit: env_test
+	poetry run pytest tests/unit $(o)
 
 

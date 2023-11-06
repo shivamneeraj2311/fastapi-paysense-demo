@@ -29,7 +29,6 @@ class UserUpdateDTO(UserCreateDTO):
 
 # Properties shared by models stored in DB
 class UserSerializer(entity.Entity):
-    id: UserID
     name: str
     surname: str
     created_date: datetime.datetime
@@ -37,14 +36,13 @@ class UserSerializer(entity.Entity):
 
     @classmethod
     def create(cls, *, name: str, surname: str):
-        dummy_user_id = UserID.make()
         created_date = get_utc_now()
         updated_date = get_utc_now()
         name = name
         surname = surname
 
         return cls(
-            id=dummy_user_id, name=name, created_date=created_date, surname=surname,
+            name=name, created_date=created_date, surname=surname,
             updated_date = updated_date
         )
 # API Response Model
@@ -52,7 +50,7 @@ class UserResponseDTO(UserSerializer):
     pass
 
 class UserAccessor(
-    accessor.Accessor[orm.User, UserSerializer, UserID]
+    accessor.Accessor[orm.User, UserSerializer, orm.User.id]
 ):
     orm_table = orm.User
     entity = UserSerializer

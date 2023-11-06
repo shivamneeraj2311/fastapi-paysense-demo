@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, ForeignKey, String
+from sqlalchemy import Column, DateTime, Integer
 from sqlalchemy.ext.declarative import as_declarative, declared_attr, declarative_base
 from sqlalchemy.sql import func
 
@@ -7,7 +7,7 @@ Base = declarative_base()
 #TODO: check why auto update is not working on updatec_date
 @as_declarative()
 class Base:
-    id =  Column(String(32), primary_key=True)
+    id =  Column(Integer, primary_key=True, index=True)
     created_date =  Column(DateTime(timezone=True), nullable=False)
     updated_date = Column(DateTime(timezone=True), nullable=False, onupdate=func.now())
     __name__: str

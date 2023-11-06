@@ -26,7 +26,7 @@ logger = logging.getLogger("default")
 
 O = typing.TypeVar("O", bound=Base)
 E = typing.TypeVar("E", bound=Entity)
-I = typing.TypeVar("I", bound=IdStr)
+I = typing.TypeVar("I", bound=int)
 
 custom_sql_alchemy_encoder: typing.Dict[
     typing.Any, typing.Callable[[typing.Any], typing.Any]

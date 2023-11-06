@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from src.database.session import get_db
 from sqlalchemy.orm import Session
-from src.models.org.org import OrgCreateDTO, OrgSerializer, OrgAccessor, OrgResponse, OrgID, OrgUpdateDTO
+from src.models.org.org import OrgCreateDTO, OrgSerializer, OrgAccessor, OrgResponse, OrgUpdateDTO
 
 router = APIRouter()
 
@@ -21,7 +21,7 @@ def create_org(
 def create_org_user_relation(
         *,
         db: Session = Depends(get_db),
-        org_id: OrgID,
+        org_id: int,
         update_org_dto: OrgUpdateDTO,
 ):
     org = OrgAccessor.get_by_id(resource_id=org_id, db_session=db)
@@ -33,7 +33,7 @@ def create_org_user_relation(
 def get_org_details(
         *,
         db: Session = Depends(get_db),
-        org_id: OrgID,
+        org_id: int,
 ):
     try:
         org_ = OrgAccessor.get_by_id(resource_id=org_id, db_session=db)
