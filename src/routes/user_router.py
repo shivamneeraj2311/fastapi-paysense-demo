@@ -1,13 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.apps.org_service import orgs
+from src.routes.user_route import users
 
 def get_app() -> FastAPI:
-    api_app: FastAPI = FastAPI(title="Org Service Router")
+    api_app: FastAPI = FastAPI(title="User Service Router")
+    api_app.router.prefix = "/chasis"
     api_app.router.redirect_slashes = False
     api_app.include_router(
-        prefix="/base", router=orgs.router, tags=["Orgs Base"]
+        prefix="/base", router=users.router, tags=["Users"]
     )
+
     api_app.add_middleware(
         CORSMiddleware,
         allow_origin_regex=".*",
