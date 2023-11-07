@@ -1,25 +1,42 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from src.routes.org_route import orgs
+from fastapi import APIRouter, Depends, HTTPException
+from src.database.session import get_db
+from sqlalchemy.orm import Session
+from src.models.org.schemas import OrgCreateDTO, OrgSerializer, OrgAccessor, OrgResponse, OrgUpdateDTO
 
-def get_app() -> FastAPI:
-    api_app: FastAPI = FastAPI(title="Org Service Router")
-    api_app.router.prefix = "/chasis"
-    api_app.router.redirect_slashes = False
-    api_app.include_router(
-        prefix="/base", router=orgs.router, tags=["Orgs Base"]
+router = APIRouter()
+
+@router.post("/create_org", response_model=OrgResponse)
+def create_org(
+    *,
+    db: Session = Depends(get_db),
+    dummy_org_in: OrgCreateDTO,
+):
+    dummy_org_ = OrgSerializer.create(
+        org_name=dummy_org_in.org_name
     )
-    api_app.add_middleware(
-        CORSMiddleware,
-        allow_origin_regex=".*",
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-        expose_headers=["X-Request-ID"],
-    )
+    OrgAccessor.add(entity=dummy_org_, db_session=db)
+    return dummy_org_
 
-    @api_app.get(path="/ping")
-    def health():
-        return "pong"
+@router.put("/{org_id}", response_model=OrgResponse)
+def create_org_user_relation(
+        *,
+        db: Session = Depends(get_db),
+        org_id: int,
+        update_org_dto: OrgUpdateDTO,
+):
+    org = OrgAccessor.get_by_id(resource_id=org_id, db_session=db)
+    cs = org.update(update_org = update_org_dto)
+    OrgAccessor.update_by_id(resource_id=org_id, change_set=cs, db_session=db)
+    return org
 
-    return api_app
+@router.get("/get_org_details", response_model=OrgResponse)
+def get_org_details(
+        *,
+        db: Session = Depends(get_db),
+        org_id: int,
+):
+    try:
+        org_ = OrgAccessor.get_by_id(resource_id=org_id, db_session=db)
+    except Exception as err:
+        raise HTTPException(status_code=404, detail="Org not found")
+    return org_
