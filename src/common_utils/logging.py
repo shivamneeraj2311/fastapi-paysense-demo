@@ -1,6 +1,7 @@
 from os.path import abspath, dirname, join
 import logging
 from logging.config import dictConfig
+
 base_dir = abspath(".")
 logs_target = join(base_dir, "logs", "app.log")
 
@@ -17,7 +18,7 @@ logging_schema = {
             # Optional: logging output format
             "format": "%(asctime)s\t%(levelname)s\t%(filename)s\t%(message)s",
             # Optional: asctime format
-            "datefmt": "%d %b %y %H:%M:%S"
+            "datefmt": "%d %b %y %H:%M:%S",
         }
     },
     # Handlers use the formatter names declared above
@@ -31,7 +32,7 @@ logging_schema = {
             "formatter": "standard",
             "level": "INFO",
             # The default is stderr
-            "stream": "ext://sys.stdout"
+            "stream": "ext://sys.stdout",
         },
         # Same as the StreamHandler example above, but with different
         # handler-specific kwargs.
@@ -43,25 +44,24 @@ logging_schema = {
             "mode": "a",
             "encoding": "utf-8",
             "maxBytes": 500000,
-            "backupCount": 4
-        }
+            "backupCount": 4,
+        },
     },
     # Loggers use the handler names declared above
-    "loggers" : {
+    "loggers": {
         "__main__": {  # if __name__ == "__main__"
             # Use a list even if one handler is used
             "handlers": ["console", "file"],
             "level": "INFO",
-            "propagate": False
+            "propagate": False,
         }
     },
     # Just a standalone kwarg for the root logger
-    "root" : {
-        "level": "INFO",
-        "handlers": ["file"]
-    }
+    "root": {"level": "INFO", "handlers": ["file"]},
 }
-def get_app_logger(name:str="root_logger"):
+
+
+def get_app_logger(name: str = "root_logger"):
     dictConfig(logging_schema)
     logger = logging.getLogger(name)
     return logger

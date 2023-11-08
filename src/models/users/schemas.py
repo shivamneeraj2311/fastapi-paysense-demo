@@ -5,11 +5,13 @@ from typing import Optional
 from pydantic import BaseModel
 from src.models import entity
 from src.models.id_prefix import IdPrefix
-from src.models.id import  IdStr
+from src.models.id import IdStr
 from src.common_utils.date_utils import get_utc_now
+
 
 class UserID(IdStr):
     prefix = IdPrefix.DUMMY_USER
+
 
 class UserDTO(BaseModel):
     name: Optional[str] = None
@@ -42,18 +44,18 @@ class UserSerializer(entity.Entity):
         surname = surname
 
         return cls(
-            name=name, created_date=created_date, surname=surname,
-            updated_date = updated_date
+            name=name,
+            created_date=created_date,
+            surname=surname,
+            updated_date=updated_date,
         )
+
+
 # API Response Model
 class UserResponseDTO(UserSerializer):
     pass
 
-class UserAccessor(
-    accessor.Accessor[orm.User, UserSerializer, orm.User.id]
-):
+
+class UserAccessor(accessor.Accessor[orm.User, UserSerializer, orm.User.id]):
     orm_table = orm.User
     entity = UserSerializer
-
-
-

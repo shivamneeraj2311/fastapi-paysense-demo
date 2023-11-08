@@ -5,7 +5,6 @@ from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, v
 
 
 class Settings(BaseSettings):
-
     # POSTGRES_SERVER: str
     # POSTGRES_USER: str
     # POSTGRES_PASSWORD: str

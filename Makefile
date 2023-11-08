@@ -32,7 +32,7 @@ create_migration: env_local
 	docker-compose up db -d
 	alembic revision --autogenerate -m "${message}"
 
-upgrade_db: env_local
+upgrade_database: env_local
 	docker-compose up db -d
 	alembic upgrade head
 

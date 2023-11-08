@@ -36,29 +36,21 @@ class OrgSerializer(entity.Entity):
         updated_date = get_utc_now()
         org_name = org_name
 
-
         return cls(
-            org_name=org_name, created_date=created_date,
-            updated_date=updated_date
+            org_name=org_name, created_date=created_date, updated_date=updated_date
         )
 
     def update(self, *, update_org: OrgUpdateDTO) -> accessor.ChangeSet:
         self.dummy_user_id = update_org.user_id
         self.updated_date = get_utc_now()
-        return {
-            nameof(self.dummy_user_id): self.dummy_user_id
-        }
+        return {nameof(self.dummy_user_id): self.dummy_user_id}
 
 
 # API Response Model
 class OrgResponse(OrgSerializer):
     pass
 
-class OrgAccessor(
-    accessor.Accessor[orm.Org, OrgSerializer, orm.Org.id]
-):
+
+class OrgAccessor(accessor.Accessor[orm.Org, OrgSerializer, orm.Org.id]):
     orm_table = orm.Org
     entity = OrgSerializer
-
-
-

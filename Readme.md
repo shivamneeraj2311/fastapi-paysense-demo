@@ -12,3 +12,8 @@
 
 ## Run Unit Test Cases
 - make test_unit
+
+## Important Doc Links
+* [Development Environment](docs/development-environment.md)
+* [Running Migrations](docs/migrations.md)
+* [Important Docs on Tools/Libraries](docs/important-docs.md)

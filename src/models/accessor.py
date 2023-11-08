@@ -34,6 +34,8 @@ custom_sql_alchemy_encoder: typing.Dict[
     datetime.datetime: lambda d: d,
     pydantic.SecretStr: lambda s: s.get_secret_value(),
 }
+
+
 def commit(session: Session):
     try:
         session.commit()
@@ -169,7 +171,9 @@ class Accessor(typing.Generic[O, E, I]):
         include: typing.Union["AbstractSetIntStr", "MappingIntStrAny"] = None,
         exclude: typing.Union["AbstractSetIntStr", "MappingIntStrAny"] = None,
     ) -> None:
-        obj_in_data = jsonable_encoder(entity, custom_encoder=custom_sql_alchemy_encoder)
+        obj_in_data = jsonable_encoder(
+            entity, custom_encoder=custom_sql_alchemy_encoder
+        )
         entity_orm = cls.orm_table(**obj_in_data)
         db_session.add(entity_orm)
         db_session.commit()
@@ -187,7 +191,7 @@ class Accessor(typing.Generic[O, E, I]):
             commit(session=db_session)
         except sqlalchemy.exc.IntegrityError as e:
             logger.warning(e)
-            #TODO : Raise Custom Exceptions
+            # TODO : Raise Custom Exceptions
             raise Exception()
 
     @classmethod
